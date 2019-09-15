@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	</head>
+	<body>
+		<p>
+			<b>Now playing:</b>
+			<span id="songname"></span>
+		</p>
+		<script>
+			function updateTrackInfo() {
+				$.get('/trackinfo.php', function(result) {
+					$('#songname').html(result);
+				});
+			}
+
+			function daemon() {
+				updateTrackInfo();
+				setTimeout(function() {
+					daemon();
+				}, 3000);
+			}
+
+			$(function() {
+				daemon();
+			});
+		</script>
+	</body>
+</html>
