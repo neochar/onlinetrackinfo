@@ -1,32 +1,42 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8">
 		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 		<style>
 			body {
-				font-family: 'Roboto';
+				font-family: 'DejaVu Sans Mono';
 				font-size: 24px;
-				background: #fff;
+				background: url('bg.jpeg') left top no-repeat;
+				background-size: 100% auto;
 				margin: 0;
 				padding-left: 10px;
 				padding-top: 10px;
+				color: #ddd;
 			}
 		</style>
 	</head>
 	<body>
 		<p>
-			<b>Now playing:</b>
+			<b>Название трека:</b>
 			<span id="songname"></span>
 		</p>
+		<p>
+			<b>Текущая активность:</b>
+			<span id="activity"><i>(неизвестно)</i></span>
+		</p>
 		<script>
-			function updateTrackInfo() {
+			function updateInfo() {
+				$.get('/activityinfo.php', function(result) {
+					$('#activity').html(result);
+				});
 				$.get('/trackinfo.php', function(result) {
 					$('#songname').html(result);
 				});
 			}
 
 			function daemon() {
-				updateTrackInfo();
+				updateInfo();
 				setTimeout(function() {
 					daemon();
 				}, 5000);
